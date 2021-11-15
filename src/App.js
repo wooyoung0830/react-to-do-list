@@ -3,32 +3,14 @@ import styled from "styled-components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TodoHead from './components/pages/TodoHead';
 import TodoList from './components/pages/TodoList';
-import PlusButton from './components/pages/PlusButton';
-import Main from './components/pages/main';
-import Write from './components/pages/write';
-
-// function App() {
-//   return (
-//     <div>
-//       <Main />
-//       <Router>
-//         <Routes>
-//           <Route path="/"  component={Main}  exact={true}  />
-//           <Route path="/write"  component={Write}  exact={true} />
-//         </Routes>
-//       </Router>
-//     </div>
-//   );
-// }
-
-// export default App;
-
 
 
 const Background = styled.div`
-    background : #e9ecef;
+    height:100vh;
+    background : #eee8f0;
     display:flex;
     justify-content: center;
+    align-items: center
 `
 const Mainbox = styled.div`
     background:#fff;
@@ -47,7 +29,6 @@ function App(){
             <Mainbox>
                 <TodoHead />
                 <TodoList />
-                <PlusButton />
             </Mainbox>
         </Background>
     )

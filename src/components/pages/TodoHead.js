@@ -11,16 +11,31 @@ const Header = styled.div`
         width:100%;
         margin:0;
         font-size:36px;
+
+        &.day{
+            padding-top:12px;
+            padding-bottom:8px;
+            border-style:none;
+            width:100%;
+            margin:0;
+            font-size:18px;
+            color:#868e96;
+        }
     }
 
-    p{
-        color:#868e96;
+    input:focus{
+        outline: none;
     }
-
+    
     h4{
-        color: #20c997;
+        color: #3b549c;
         border: 1px soild #868396;
     }
+`
+
+const Date = styled.div`
+    width:90%;
+    border-bottom: 1px solid #8984b4;
 `
 
 function TodoLeft(){
@@ -32,8 +47,10 @@ function TodoLeft(){
 function TodoHead(){
     return(
         <Header>
+            <Date>
             <input placeholder="오늘 날짜 입력" />
-            <p>월요일</p>
+            <input className="day" placeholder="요일을 입력하세요." />
+            </Date>
             <TodoLeft />
         </Header>
     )
