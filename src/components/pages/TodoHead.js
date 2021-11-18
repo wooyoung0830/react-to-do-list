@@ -39,8 +39,10 @@ const Date = styled.div`
 `
 
 function TodoLeft(){
+    const todos = JSON.parse(localStorage.getItem('todos'));
+    const length= todos.length
     return(
-        <h4>남은 할 일 4개</h4>
+        <h4>남은 할 일 {length}개</h4>
     )
 }
 

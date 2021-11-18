@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {AiFillDelete } from "react-icons/ai";
-import {FaPlus} from "react-icons/fa";
+import {FaRegCircle, FaRegCheckCircle, FaPlus} from "react-icons/fa";
 
 const TodoIput = styled.div`
     display:flex;
     flex-direction:colunm;
     padding-left:32px;
     width:90%;
+    margin-bottom:8px;
+
     input{
-        margin-right:4px;
+        margin-right:12px;
         width:80%;
         font-size:24px;
+    }
+
+    input{
+        border-color:#8984b4;
     }
 
     input:focus{
@@ -22,6 +28,7 @@ const TodoIput = styled.div`
 const TodoItemStyle = styled.ul`
     list-style:none;
     padding-left:32px;
+    margin:0px;
 
     li{
         margin:4px;
@@ -34,42 +41,102 @@ const TodoItemStyle = styled.ul`
     }
 `
 
-function plusTodo(){
-    
+const ItemBlock = styled.div`
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: space-between;
+    width:90%;
+`
+const Content = styled.div`
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+`
+const Text =styled.p `
+    margin-left:12px;
+    &.finish{
+        text-decoration: line-through;
+        opacity:0.8;
+        color:gray;
+    }
+`
+
+const Delete = styled.div`
+
+    &:hover{
+        cursor: pointer; 
+    }
+`
+function plusTodo(todoContent){
+    let todos;
+    let todo = todoContent;
+    if(localStorage.getItem('todos') === null){
+        todos=[];
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+    todos.push(todo);
+    todos = 
+    window.localStorage.setItem('todos', JSON.stringify(todos));
 }
-function TodoItem(){
+
+function removeLocalTodos(todo){
+    let todos = JSON.parse(localStorage.getItem('todos'));
+    todos.splice(todos.indexOf(todo),1);
+    window.localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+function TodoItem(props){
+    const [done, setDone] = useState(false);
+
     return(
-        // todos.map((item, i) => {
-        //     return (
-        //         <ul>
-        //             <li>
-        //                 <div>
-        //                     {item}
-        //                     <button>delete</button>
-        //                 </div>
-        //             </li>
-        //         </ul>
-        //     )
-        // })
-        <TodoItemStyle>
-            {/* 체크박스 만들기, delete는 hover되면 보이기 그 전에는 display:none; */}
-            <li>밥먹기 <AiFillDelete size="24px" color="#4d4e60"/></li> 
-            <li>책읽기 <AiFillDelete size="24px" color="#4d4e60"/></li>
-            <li>잠자기 <AiFillDelete size="24px" color="#4d4e60"/></li>
-        </TodoItemStyle>
+        <ItemBlock>
+            <Content>
+                { done ?  <FaRegCheckCircle size="18px" color="#4d4e60" onClick={() => {setDone(!done)}} /> 
+                :  <FaRegCircle size="18px" color="#4d4e60" onClick={() => {setDone(!done)}}/>}
+                <Text className={ done ? "finish" : null}>{props.text}</Text>
+            </Content>
+            <Delete>
+                <AiFillDelete size="24px" color="#4d4e60" 
+                onClick={() =>removeLocalTodos(props.text)}
+                />
+            </Delete>
+        </ItemBlock>
+    )
+}
+function TodoItems(){
+    let todos;
+    if(localStorage.getItem('todos') === null){
+        todos=[];
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+    return(
+        todos.map((todoContent, i) => {
+            return (
+                <TodoItemStyle>
+                    <TodoItem text={todoContent} key={i}/>
+                </TodoItemStyle>
+        )}
+        
+    )
     )
 }
 
 function TodoList(){
-    const todos = localStorage.getItem('todos')
+    const [todoContent, setTodoContent] = useState("");
+    useEffect(() => {
+        
+    },[])
     return(
-        <div>
+        <>
             <TodoIput>
-            <input placeholder="todo 입력란"></input>
-            <FaPlus  size="36px" color="#3b549c" onClick={plusTodo}/>
+                <input placeholder="할 일을 입력하세요" onBlur={(e) => setTodoContent(e.target.value)} />
+                <FaPlus size="36px" color="#3b549c" onClick={() => plusTodo(todoContent)} />
             </TodoIput>
-            <TodoItem />
-        </div>
+            <TodoItems />
+        </>
     )
 }
 
