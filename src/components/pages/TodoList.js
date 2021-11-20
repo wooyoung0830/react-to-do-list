@@ -77,13 +77,13 @@ function plusTodo(todoContent){
         todos = JSON.parse(localStorage.getItem('todos'));
     }
     todos.push(todo);
-    todos = 
+    todos = [...todos];
     window.localStorage.setItem('todos', JSON.stringify(todos));
 }
 
-function removeLocalTodos(todo){
+function removeLocalTodos(text){
     let todos = JSON.parse(localStorage.getItem('todos'));
-    todos.splice(todos.indexOf(todo),1);
+    todos.splice(todos.indexOf(text),1);
     window.localStorage.setItem('todos', JSON.stringify(todos));
 }
 
@@ -105,15 +105,9 @@ function TodoItem(props){
         </ItemBlock>
     )
 }
-function TodoItems(){
-    let todos;
-    if(localStorage.getItem('todos') === null){
-        todos=[];
-    }else{
-        todos = JSON.parse(localStorage.getItem('todos'));
-    }
+function TodoItems(props){
     return(
-        todos.map((todoContent, i) => {
+        props.todos.map((todoContent, i) => {
             return (
                 <TodoItemStyle>
                     <TodoItem text={todoContent} key={i}/>
@@ -126,16 +120,24 @@ function TodoItems(){
 
 function TodoList(){
     const [todoContent, setTodoContent] = useState("");
-    useEffect(() => {
+    let todos;
+    if(localStorage.getItem('todos') === null){
+        todos=[];
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'));
         
-    },[])
+    }
+    useEffect(() => {
+        // spread operator
+        todos = [...todos];
+    })
     return(
         <>
-            <TodoIput>
+            <TodoIput todos={todos}>
                 <input placeholder="할 일을 입력하세요" onBlur={(e) => setTodoContent(e.target.value)} />
                 <FaPlus size="36px" color="#3b549c" onClick={() => plusTodo(todoContent)} />
             </TodoIput>
-            <TodoItems />
+            <TodoItems todos={todos}/>
         </>
     )
 }
