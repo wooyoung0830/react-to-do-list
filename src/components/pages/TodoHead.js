@@ -1,7 +1,9 @@
 import React,{useState} from "react";
 import styled from "styled-components";
 
+
 const Header = styled.div`
+    font-family: 'Gaegu', cursive;
     padding-top:48px;
     padding-left:32px;
 
@@ -38,20 +40,6 @@ const Date = styled.div`
     border-bottom: 1px solid #8984b4;
 `
 
-function TodoLeft(){
-    const todos = JSON.parse(localStorage.getItem('todos'));
-    let length;
-    if (todos === null){
-        length=0
-    }else{
-        length= todos.length
-    }
-    
-    return(
-        <h4>남은 할 일 {length}개</h4>
-    )
-}
-
 function TodoHead(){
     return(
         <Header>
@@ -59,9 +47,9 @@ function TodoHead(){
             <input placeholder="오늘 날짜 입력" />
             <input className="day" placeholder="요일을 입력하세요." />
             </Date>
-            <TodoLeft />
         </Header>
     )
 }
 
 export default TodoHead;
+

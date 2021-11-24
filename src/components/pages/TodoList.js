@@ -4,6 +4,7 @@ import {AiFillDelete } from "react-icons/ai";
 import {FaRegCircle, FaRegCheckCircle, FaPlus} from "react-icons/fa";
 
 const TodoIput = styled.div`
+    font-family: 'Gaegu', cursive;
     display:flex;
     flex-direction:colunm;
     padding-left:32px;
@@ -68,6 +69,22 @@ const Delete = styled.div`
         cursor: pointer; 
     }
 `
+
+function TodoLeft(){
+    const todos = JSON.parse(localStorage.getItem('todos'));
+    let length;
+    if (todos === null){
+        length=0
+    }else{
+        length= todos.length
+    }
+    
+    return(
+        <h4 style={{color: "#3b549c",
+            paddingLeft:"32px"}}>남은 할 일 {length}개</h4>
+    )
+}
+
 function plusTodo(todoContent){
     let todos;
     let todo = todoContent;
@@ -120,21 +137,16 @@ function TodoItems(props){
 
 function TodoList(){
     const [todoContent, setTodoContent] = useState("");
-    let todos;
-    if(localStorage.getItem('todos') === null){
-        todos=[];
-    }else{
-        todos = JSON.parse(localStorage.getItem('todos'));
-        
-    }
+    const [todos, setTodos] = useState([])
+
     useEffect(() => {
-        // spread operator
-        todos = [...todos];
+        setTodos(JSON.parse(localStorage.getItem('todos')));
     })
     return(
         <>
+            <TodoLeft todos={todos}/>
             <TodoIput todos={todos}>
-                <input placeholder="할 일을 입력하세요" onBlur={(e) => setTodoContent(e.target.value)} />
+                <input type="text" placeholder="할 일을 입력하세요" onBlur={(e) => setTodoContent(e.target.value)} />
                 <FaPlus size="36px" color="#3b549c" onClick={() => plusTodo(todoContent)} />
             </TodoIput>
             <TodoItems todos={todos}/>
