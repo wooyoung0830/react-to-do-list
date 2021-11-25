@@ -3,17 +3,25 @@ import styled from "styled-components";
 import {AiFillDelete } from "react-icons/ai";
 import {FaRegCircle, FaRegCheckCircle, FaPlus} from "react-icons/fa";
 
+const TodoMain = styled.div`
+    width:90%;
+    padding-left: 32px;
+    height:350px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+`
+
 const TodoIput = styled.div`
     font-family: 'Gaegu', cursive;
     display:flex;
     flex-direction:colunm;
-    padding-left:32px;
-    width:90%;
+    width:78%;
     margin-bottom:8px;
+    padding-left:32px;
 
     input{
-        margin-right:12px;
-        width:80%;
+        margin-right:16px;
+        width:90%;
         font-size:24px;
     }
 
@@ -26,23 +34,11 @@ const TodoIput = styled.div`
     }
 `
 
-const TodoItemStyle = styled.ul`
+
+const ItemBlock = styled.li`
     list-style:none;
-    padding-left:32px;
     margin:0px;
-
-    li{
-        margin:4px;
-        font-size:24px;
-        width:85%;
-        display:flex;
-        flex-direction:row;
-        justify-content: space-between;
-        align-items:center;
-    }
-`
-
-const ItemBlock = styled.div`
+    width:85%;
     display:flex;
     flex-direction:row;
     align-items: center;
@@ -80,8 +76,7 @@ function TodoLeft(){
     }
     
     return(
-        <h4 style={{color: "#3b549c",
-            paddingLeft:"32px"}}>남은 할 일 {length}개</h4>
+        <h4 style={{color: "#3b549c", paddingLeft:"32px"}}>남은 할 일 {length}개</h4>
     )
 }
 
@@ -126,9 +121,7 @@ function TodoItems(props){
     return(
         props.todos.map((todoContent, i) => {
             return (
-                <TodoItemStyle>
-                    <TodoItem text={todoContent} key={i}/>
-                </TodoItemStyle>
+                <TodoItem text={todoContent} key={i}/>
         )}
         
     )
@@ -146,10 +139,12 @@ function TodoList(){
         <>
             <TodoLeft todos={todos}/>
             <TodoIput todos={todos}>
-                <input type="text" placeholder="할 일을 입력하세요" onBlur={(e) => setTodoContent(e.target.value)} />
-                <FaPlus size="36px" color="#3b549c" onClick={() => plusTodo(todoContent)} />
+            <input type="text" placeholder="할 일을 입력하세요" onBlur={(e) => setTodoContent(e.target.value)} />
+            <FaPlus size="36px" color="#3b549c" onClick={() => plusTodo(todoContent)} />
             </TodoIput>
-            <TodoItems todos={todos}/>
+            <TodoMain>
+                <TodoItems todos={todos}/>
+            </TodoMain>
         </>
     )
 }
